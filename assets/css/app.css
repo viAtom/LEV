@@ -124,7 +124,7 @@ body {
 }
 
 .team {
-	width: 34%;
+	width: calc((100% - 532px)/2 - 6%);
 	min-height: 548px;
 	vertical-align: middle;
 	background-color: #26292b;

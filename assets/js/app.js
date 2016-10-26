@@ -170,3 +170,10 @@ lev.directive('tooltip', function() {
 });
 lev.filter('kda', function () { return function (infoTeam) { return infoTeam.kills+" / "+infoTeam.deaths+" / "+infoTeam.assists; }; });
 lev.filter('name', function () { return function (infoTeam) { return infoTeam.name; }; });
+
+lev.config(function($sceDelegateProvider) {
+	$sceDelegateProvider.resourceUrlWhitelist([
+		'self',
+		'http://ddragon.leagueoflegends.com/**'
+	]);
+});
