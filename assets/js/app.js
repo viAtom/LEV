@@ -145,6 +145,16 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 		var time = $scope.general[$scope.game].t;
 		return Math.round(time/1000/60) + ":" + Math.round(time/1000%60);
 	}
+
+	$scope.hover = function(id) {
+		$('#'+id).addClass('hovered');
+		$('#'+id+' .champion-square').mouseover();
+	}
+
+	$scope.unhover = function(id) {
+		$('#'+id).removeClass('hovered');
+		$('#'+id+' .champion-square').mouseout();
+	}
 });
 lev.directive('tooltip', function() {
 	return function(scope, element, attrs) {

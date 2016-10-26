@@ -36,15 +36,11 @@ body {
 .main {
 	height: calc(100% - 52px);
 	overflow: auto;
-	display: flex;
 }
 
 .players {
 	text-align:center;
 	padding: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	height: 100%;
 	width: 100%;
 }
@@ -128,8 +124,9 @@ body {
 }
 
 .team {
-	width: 40%;
-	vertical-align: top;
+	width: 34%;
+	min-height: 548px;
+	vertical-align: middle;
 	background-color: #26292b;
 	border: solid 1px #e7e7e7;
 	color: #e7e7e7;
@@ -137,13 +134,24 @@ body {
 	border-radius: 10px 10px 0px 0px;
 }
 
+.players-container {
+	max-height: calc(100vh - 140px);
+	min-height: 496px;
+	overflow: auto;
+}
+
 .player-container, .header {
 	width: 100%;
 	position: relative;
 }
 
-.player-container:hover {
+.player-container:hover, .player-container.hovered {
 	background-color: #35393b;
+}
+
+.game-info {
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .blue-team {
