@@ -1,0 +1,297 @@
+html {
+	height: 100%;
+}
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 14px;
+	margin: 0;
+	color: #fff;
+	height: 100%;
+}
+
+.bg {
+	background: url("https://lolstatic-a.akamaihd.net/frontpage/apps/prod/stream_theater/fr_FR/4c11f49d46dd28da053cb8ed12e08c342b1f0b6c/assets/img/bg-broadcast-offline2.jpg");
+	background-size: 100vw 100vh;
+	background-repeat: no-repeat;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+.noselect {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	cursor: default;
+}
+
+.view {
+	height: 100%;
+}
+
+.main {
+	height: calc(100% - 52px);
+	overflow: auto;
+	display: flex;
+}
+
+.players {
+	text-align:center;
+	padding: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+.champion-square {
+	width: 60px;
+	height: 60px;
+	vertical-align: middle;
+	margin: 2px -2px;
+	background-position: -6px -6px;
+	background-size: 70px;
+	border-radius: 50%;
+	display: inline-block;
+	border: solid 2px rgba(0,0,0,0);
+	transition: border 0.3s ease-out;
+	position: relative;
+}
+
+.player-level {
+	position: absolute;
+	height: 24px;
+	width: 24px;
+	bottom: -4px;
+	background-color: #26292b;
+	border-radius: 50%;
+	text-align: center;
+	border: solid 1px white;
+	line-height: 23px;
+	font-size: 11px;
+}
+
+.blue-team .player-level {
+	right: -4px;
+}
+
+.red-team .player-level {
+	left: -4px;
+}
+
+.player:hover .champion-square {
+	border: solid 2px #5abbd4;
+}
+
+.player-item {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	margin: 2px;
+	vertical-align: middle;
+	border: solid 1px #666;
+	background-size: 40px;
+	background-repeat: no-repeat;
+	background-position: -1px -1px;
+}
+
+.games {
+	margin: 10px 0;
+}
+
+.clickable:hover {
+	cursor: pointer;
+}
+
+.game-available:hover {
+	cursor: pointer;
+}
+
+.game-selected, .game-selected:hover {
+	cursor: initial;
+	background-color: #303030;
+}
+
+.navbar-nav > li.game-selected.game-available > a {
+	color: #FFF;
+}
+
+.player {
+	height: auto;
+	min-height: 120px;
+	padding: 10px 28px;
+}
+
+.team {
+	width: 40%;
+	vertical-align: top;
+	background-color: #26292b;
+	border: solid 1px #e7e7e7;
+	color: #e7e7e7;
+	display: inline-block;
+	border-radius: 10px 10px 0px 0px;
+}
+
+.player-container, .header {
+	width: 100%;
+	position: relative;
+}
+
+.player-container:hover {
+	background-color: #35393b;
+}
+
+.blue-team {
+	text-align: right;
+}
+
+.red-team {
+	text-align: left;
+}
+
+.header {
+	font-weight: bold;
+	text-align: center;
+	font-size: 20px;
+	padding: 10px;
+	border-radius: 10px 10px 0px 0px;
+	border-bottom: solid 1px #e7e7e7;
+}
+
+.blue-team > .header{
+	color: #3AABC3;
+	background-color: rgba(58, 171, 195, 0.25);
+}
+
+.red-team > .header {
+	color: #B84750;
+	background-color: rgba(184, 71, 80, 0.25);
+}
+
+.blue-team .champion-square {
+	margin-left: 6px;
+}
+
+.red-team .champion-square {
+	margin-right: 6px;
+}
+
+.reverse {
+	transform: rotateY(180deg);
+}
+
+.icon {
+	width: 12px;
+	margin: 2px;
+}
+
+.player-info {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.player-name {
+	font-weight: bold;
+}
+
+.player-stats, .player-stats > div {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.blue-team .player-name {
+	color: #3AABC3;
+}
+
+.red-team .player-name {
+	color: #B84750;
+}
+
+.divider {
+	height: 1px;
+	background-color: #e7e7e7;
+}
+
+.indicator {
+	height: 24px;
+	width: 24px;
+	background-color: black;
+	margin: 2px;
+}
+
+.gold-diff {
+	position: absolute;
+	right: -26px;
+	bottom: 14px;
+	text-align: center;
+	display: block;
+	height: auto;
+	width: 50px;
+	border-radius: 10px;
+	border: 1px solid black;
+	background: #040507;
+	z-index: 1;
+}
+
+.timer {
+	font-size: 20px;
+}
+
+.loading {
+	border: 1px solid gray;
+	font-size: 20px;
+	color: #b4914c;
+	position: absolute;
+	width: 60%;
+	height: 14%;
+	top: calc(50% - 100px);
+	left: 0;
+	right: 0;
+	margin: auto;
+	display: table;
+}
+
+.loading > div {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.navbar-perso {
+	border-radius: 0;
+	border: 0;
+	border-bottom: 2px solid #0C2830;
+	background: #040507;
+	margin: 0;
+	height: 52px;
+}
+
+.navbar-brand-perso {
+	padding: 15px 10px 15px 0;;
+	color: #999;
+	display: inline-block;
+}
+
+.navbar-brand-perso:hover {
+	color: #fff;
+}
+
+.ng-cloak {
+	display: none !important;
+}
+
+svg {
+	width: 512px;
+	height: 512px;
+	background-image: url('http://ddragon.leagueoflegends.com/cdn/6.8.1/img/map/map11.png');
+	background-size: 100%;
+	border: solid 2px #0C2830;
+	margin: 10px;
+	display: block;
+	flex: 0 0 auto;
+}
