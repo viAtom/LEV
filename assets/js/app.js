@@ -143,9 +143,13 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 		else return "background-color: rgb(110, 43, 48);"
 	}
 
+	function pad(n) {
+		if (n<10) return "0"+n; else return n;
+	}
+
 	$scope.getTime = function() {
 		var time = $scope.general[$scope.game].t;
-		return Math.round(time/1000/60) + ":" + Math.round(time/1000%60);
+		return pad(Math.round(time/1000/60)) + ":" + pad(Math.round(time/1000%60));
 	}
 
 	$scope.hover = function(id) {
