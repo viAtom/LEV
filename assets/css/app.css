@@ -303,3 +303,7 @@ svg {
 	display: block;
 	flex: 0 0 auto;
 }
+
+circle {
+	transition: all 2s linear;
+}
