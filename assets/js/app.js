@@ -54,7 +54,9 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 					var data = JSON.parse(evt.data);
 					$.each(data, function(gameUpdated, value) {
 						$.each(data[gameUpdated].playerStats, function(i,val) {
-							for (key in val) $scope.general[gameUpdated].playersStats[i][key] = val[key];
+							for (key in val) {
+								$scope.general[gameUpdated].playerStats[i][key] = val[key];
+							}
 						});
 						$.each(data[gameUpdated].teamStats, function(i, val) {
 							for (key in val) $scope.general[gameUpdated].teamStats[i][key] = val[key];
