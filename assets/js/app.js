@@ -55,6 +55,7 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 					$.each(data, function(gameUpdated, value) {
 						if ($scope.general[gameUpdated] == undefined) {
 							$scope.general[gameUpdated] = value;
+							$scope.games.push(gameUpdated);
 							$scope.chooseGame(gameUpdated);
 						} else {
 							$.each(data[gameUpdated].playerStats, function(i,val) {
