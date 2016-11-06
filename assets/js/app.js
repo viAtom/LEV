@@ -98,7 +98,7 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 				setTimeout(function() {
 					$scope.game = game; 
 					$scope.getTeamPlayers(); 
-				},500);
+				},1000);
 			},100);
 		} else {
 			$scope.game = game; 
