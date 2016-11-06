@@ -111,7 +111,7 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 
 		$.get('assets/js/'+script, function(data) { eval(data);
 			function execReplay(i) {
-				if (replayGame[i]) {
+				if (replayGame[i] && $scope.isReplaying) {
 					$scope.execData(replayGame[i]);
 					setTimeout(function() { execReplay(i+1) }, 1000);
 				} else return true;
