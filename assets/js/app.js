@@ -97,7 +97,7 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 			lastData[$scope.game] = replayGames[$scope.game];
 			setTimeout(function() { 
 				$scope.execData(lastData);
-			},100);
+			},250);
 		}
 		$scope.game = game; 
 		$scope.getTeamPlayers(); 	
