@@ -93,10 +93,16 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 	$scope.chooseGame = function(game) { 
 		if ($scope.isReplaying) {
 			$scope.isReplaying = false;
-			$scope.execData({game: replayGames[$scope.game]});
+			setTimeout(function() { 
+				$scope.execData(replayGames);
+				$scope.game = game; 
+				$scope.getTeamPlayers(); 
+			},100);
+		} else {
+			$scope.game = game; 
+			$scope.getTeamPlayers(); 
 		}
-		$scope.game = game; 
-		$scope.getTeamPlayers(); 
+		
 	}
 
 	$scope.replay = function() {
