@@ -97,7 +97,6 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 	}
 
 	$scope.replay = function() {
-		$scope.replay = {"time":0};
 		$scope.isReplaying = true;
 		var script = "";
 		switch ($scope.game) {
