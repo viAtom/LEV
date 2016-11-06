@@ -152,6 +152,7 @@ body {
 .game-info {
 	display: inline-block;
 	vertical-align: middle;
+	position: relative;
 }
 
 .blue-team {
@@ -293,6 +294,10 @@ body {
 	display: none !important;
 }
 
+.player-dead {
+	box-shadow: inset 0px 0px 30px 4px rgba(255,0,0,0.5);
+}
+
 svg {
 	width: 512px;
 	height: 512px;
@@ -306,4 +311,18 @@ svg {
 
 circle {
 	transition: all 1s linear;
+}
+
+.annonces {
+	position: absolute;
+	top: -60px;
+	font-size: 22px;
+	height: 40px;
+	width: 100%;
+	opacity: 1;
+	transition: opacity 1s ease-out;
+}
+
+.annonces:empty {
+	opacity: 0;
 }

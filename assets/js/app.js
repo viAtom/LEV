@@ -10,9 +10,11 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 	$scope.general = false;
 	$scope.redTeam = {};
 	$scope.blueTeam = {};
+	$scope.annonces = [];
 	$scope.loadingPerc = 0;
 	$scope.loadingMaxPerc = 25;
 	$scope.loadingMessage = "Please wait while loading .. ";
+	$scope.isReplaying = false;
 	$scope.Math = window.Math;
 	var intPerc = setInterval(function() { 
 		if ($scope.loading) {
@@ -52,35 +54,80 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 				$scope.getTeamPlayers();
 				$scope.socket.onmessage = function (evt) { 
 					var data = JSON.parse(evt.data);
-					$.each(data, function(gameUpdated, value) {
-						if ($scope.general[gameUpdated] == undefined) {
-							$scope.general[gameUpdated] = value;
-							$scope.games.push(gameUpdated);
-							$scope.chooseGame(gameUpdated);
-						} else {
-							$.each(data[gameUpdated].playerStats, function(i,val) {
-								for (key in val) {
-									$scope.general[gameUpdated].playerStats[i][key] = val[key];
-								}
-							});
-							$.each(data[gameUpdated].teamStats, function(i, val) {
-								for (key in val) $scope.general[gameUpdated].teamStats[i][key] = val[key];
-							})
-							$scope.general[gameUpdated].t = data[gameUpdated].t;
-							$scope.general[gameUpdated].gameComplete = data[gameUpdated].gameComplete;
-						}
-					});
-					try { $scope.$apply(); } 
-					catch (e) { console.log(e); }
+					$scope.execData(data);
 				}
 			} else alert('Error not loading');
 			$scope.$apply();
 		};
 	});
 
-	$scope.chooseGame = function(game) { $scope.game = game; $scope.getTeamPlayers(); }
+	$scope.execData = function(data) {
+		$.each(data, function(gameUpdated, value) {
+			if ($scope.general[gameUpdated] == undefined) {
+				$scope.general[gameUpdated] = value;
+				$scope.games.push(gameUpdated);
+				$scope.chooseGame(gameUpdated);
+			} else {
+				$.each(data[gameUpdated].playerStats, function(i,val) {
+					for (key in val) {
+						if (key=="deaths") {
+							$scope.general[gameUpdated].playerStats[i].isDead = true;
+						}
+						if ($scope.general[gameUpdated].playerStats[i].isDead==true && key=="x") {
+							$scope.general[gameUpdated].playerStats[i].isDead = false;
+						}
+						$scope.general[gameUpdated].playerStats[i][key] = val[key];
+					}
+				});
+				$.each(data[gameUpdated].teamStats, function(i, val) {
+					for (key in val) $scope.general[gameUpdated].teamStats[i][key] = val[key];
+				})
+				$scope.general[gameUpdated].t = data[gameUpdated].t;
+				$scope.general[gameUpdated].gameComplete = data[gameUpdated].gameComplete;
+			}
+		});
+		try { $scope.$apply(); } 
+		catch (e) { console.log(e); }
+	}
+
+	$scope.chooseGame = function(game) { 
+		$scope.isReplaying = false;
+		$scope.game = game; 
+		$scope.getTeamPlayers(); 
+	}
+
+	$scope.replay = function() {
+		$scope.replay = {"time":0};
+		$scope.isReplaying = true;
+		var script = "";
+		switch ($scope.game) {
+			case "1001960052": script = "SKTSSGG1.js"; break;
+			case "1001960063": script = "SKTSSGG2.js"; break;
+			case "1001960064": script = "SKTSSGG3.js"; break;
+			case "1001960065": script = "SKTSSGG4.js"; break;
+			case "1001960067": script = "SKTSSGG5.js"; break;
+			default: return false; break;
+		}
+
+		$.get('assets/js/'+script, function(data) { eval(data);
+			function execReplay(i) {
+				if (replayGame[i]) {
+					$scope.execData(replayGame[i]);
+					setTimeout(function() { execReplay(i+1) }, 1000);
+				} else return true;
+			}
+			setTimeout(function() { execReplay(0) }, 10);
+		 });
+	}
 
 	$scope.showLog = function() { output = $scope.general[$scope.game].playerStats; console.log("Active players stats logged in var 'output'");};
+
+	$scope.getAnnonces = function() {
+		if ($scope.annonces.length==0) return "";
+		else {
+			var annonce = $scope.annonces[0];
+		}
+	}
 
 	$scope.getTeamPlayers = function() {
 		var iB = 1, iR = 1;

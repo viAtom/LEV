@@ -9,8 +9,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 	<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-	<script type="text/javascript" src="assets/js/app.js?465465464"></script>
-	<link rel="stylesheet" type="text/css" href="assets/css/app.css?465465464">
+	<script type="text/javascript" src="assets/js/app.js?878979"></script>
+	<link rel="stylesheet" type="text/css" href="assets/css/app.css?878979">
 	<script type="text/javascript" src="assets/js/ROXSKTG1.js"></script>
 </head>
 <body>
@@ -27,6 +27,7 @@
 						<!--<li ng-click="showLog()" type="button" style="color: black"><a>Console Log</a></li>-->
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<li ng-click="replay()" class="clickable"><a>Replay</a></li>
 						<li><a href="http://watch.euw.lolesports.com/" target="_blank">Watch Esports Live</a></li>
 					</ul>
 				</div>
@@ -37,7 +38,7 @@
 				<div class='team blue-team ng-cloak'>
 					<div class="header">{{ getInfoTeam('blue') | name }} - {{ getInfoTeam('blue') | kda }}</div>
 					<div class="players-container">
-						<div class="player-container" ng-attr-id="{{game}}{{player.participantId}}" ng-repeat="player in getTeam('blue')"">
+						<div class="player-container" ng-attr-id="{{game}}{{player.participantId}}" ng-class="{'player-dead' : player.isDead==true}" ng-repeat="player in getTeam('blue')"">
 							<div ng-if="$index != 0" class="divider"></div>
 							<div class="player">
 								<div>
@@ -69,6 +70,7 @@
 					</div>
 				</div>
 				<div class="game-info ng-cloak">
+					<div class="annonces">{{ getAnnonces() }}</div>
 					<div class="timer">{{ getTime() }}</div>
 					<svg width="512" height="512">
 						<g ng-repeat="player in players">
@@ -78,14 +80,14 @@
 									<image x="-3" y="-3" width="34" height="34" ng-attr-xlink:href="{{'http://ddragon.leagueoflegends.com/cdn/6.21.1/img/champion/'+player.championName+'.png'}}" xlink:href=""></image>
 								</pattern>
 							</defs>
-							<circle ng-attr-cx="{{Math.round(player.x/29)}}" ng-attr-cy="{{512-Math.round(player.y/29)}}" r="14" ng-attr-stroke="{{player.teamId=='100' ? 'rgba(58, 171, 195, 0.75)' : 'rgba(184, 71, 80, 0.75)'}}" stroke-width="1" ng-attr-fill="url(#icon-{{game}}-{{player.championName}})" class="champion-circle" ng-mouseout="unhover(game+''+player.participantId)" ng-mouseover="hover(game+''+player.participantId)"></circle>
+							<circle ng-if="player.isDead==undefined || player.isDead==false" ng-attr-cx="{{Math.round(player.x/29)}}" ng-attr-cy="{{512-Math.round(player.y/29)}}" r="14" ng-attr-stroke="{{player.teamId=='100' ? 'rgba(58, 171, 195, 0.75)' : 'rgba(184, 71, 80, 0.75)'}}" stroke-width="1" ng-attr-fill="url(#icon-{{game}}-{{player.championName}})" class="champion-circle" ng-mouseout="unhover(game+''+player.participantId)" ng-mouseover="hover(game+''+player.participantId)"></circle>
 						</g>
 					</svg>
 				</div>
 				<div class='team red-team ng-cloak'>
 					<div class="header">{{ getInfoTeam('red') | name }} - {{ getInfoTeam('red') | kda }}</div>
 					<div class="players-container">
-						<div class="player-container" ng-attr-id="{{game}}{{player.participantId}}" ng-repeat="player in getTeam('red')">
+						<div class="player-container" ng-attr-id="{{game}}{{player.participantId}}" ng-class="{'player-dead' : player.isDead==true}" ng-repeat="player in getTeam('red')">
 							<div ng-if="$index != 0" class="divider"></div>
 							<div class="player">
 								<div>
