@@ -3,7 +3,7 @@ var output = "";
 var lev = angular.module('lev', []).controller('lev-controller', function($scope) {
 	$scope.players = false;
 	$scope.loading = true;
-	$scope.ddragon = "http://ddragon.leagueoflegends.com/cdn/6.21.1";
+	$scope.ddragon = "http://ddragon.leagueoflegends.com/cdn/";
 	$scope.items = {};
 	$scope.game = false;
 	$scope.games = false;
@@ -25,16 +25,22 @@ var lev = angular.module('lev', []).controller('lev-controller', function($scope
 		}
 	}, 10);
 
-	$.getJSON($scope.ddragon+"/data/"+lang+"/item.json", function(data) { 
-		$scope.items=data; 
-		$scope.loadingMaxPerc+=25;
-		$scope.$apply(); 
-	});
+	$.getJSON("https://ddragon.leagueoflegends.com/api/versions.json", function(data) {
+		$scope.ddragon += data[0];
+		$scope.loadingMaxPerc+=20;
+		$scope.$apply();
+		$.getJSON($scope.ddragon+"/data/"+lang+"/item.json", function(data) { 
+			$scope.items=data; 
+			$scope.loadingMaxPerc+=20;
+			$scope.$apply(); 
+		});
+	})
+
 	$.getJSON('http://api.lolesports.com/api/issueToken', function(issueData) { 
-		$scope.loadingMaxPerc+=25;
+		$scope.loadingMaxPerc+=20;
 		$scope.socket = new WebSocket('ws://livestats.proxy.lolesports.com/stats?jwt='+issueData.token);
 		$scope.socket.onopen = function() {
-			$scope.loadingMaxPerc+=25;
+			$scope.loadingMaxPerc+=20;
 		};
 		$scope.socket.onerror = function() {
 			$scope.loadingMaxPerc = 0;
