@@ -49,7 +49,7 @@ body {
 	width: 60px;
 	height: 60px;
 	vertical-align: middle;
-	margin: 2px -2px;
+	margin: 2px 0;
 	background-position: -6px -6px;
 	background-size: 70px;
 	border-radius: 50%;
@@ -104,16 +104,29 @@ body {
 	cursor: pointer;
 }
 
+.dropdown-menu {
+	background-color: #040507;
+}
+
+.dropdown-menu > li.game-available > a {
+	color: #999;
+}
+
+.dropdown-menu > li.game-available > a:hover {
+	background-color: #101010;
+	color: #FFF;
+}
+
 .game-available:hover {
 	cursor: pointer;
 }
 
-.game-selected, .game-selected:hover {
+.game-selected, .dropdown-menu > li.game-selected > a:hover {
 	cursor: initial;
 	background-color: #303030;
 }
 
-.navbar-nav > li.game-selected.game-available > a {
+.nav > li.game-selected > a, .dropdown-menu > li.game-selected.game-available > a {
 	color: #FFF;
 }
 
@@ -201,7 +214,7 @@ body {
 
 .player-info {
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 .player-name {
@@ -210,7 +223,7 @@ body {
 
 .player-stats, .player-stats > div {
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 .blue-team .player-name {
@@ -295,7 +308,34 @@ body {
 }
 
 .player-dead {
-	box-shadow: inset 0px 0px 30px 4px rgba(255,0,0,0.5);
+	box-shadow: inset 0px 0px 40px -4px rgba(255,0,0,0.5);
+}
+
+.stat-bars {
+	width: 74px;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.stat-bar {
+	height: 14px;
+	background: #444;
+	width: 66px;
+	padding: 1px;
+	margin: 4px;
+}
+
+.stat-bar > span {
+	display: block;
+	height: 100%;
+}
+
+.health-bar > span {
+	background-color: #0f4;
+}
+
+.power-bar > span {
+	background-color: #5abbd4;
 }
 
 svg {
