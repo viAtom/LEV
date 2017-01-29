@@ -1,7 +1,7 @@
 var lang = "en_US"; // "en_US"
 var output = "";
 var lev = angular.module('lev', []);
-lev.controller('lev-controller', function($scope) {
+lev.controller('lev-controller', function($scope, $timeout) {
 	$scope.players = false;
 	$scope.loading = true;
 	$scope.ddragon = "http://ddragon.leagueoflegends.com/cdn/";
@@ -140,14 +140,30 @@ lev.controller('lev-controller', function($scope) {
 	}
 
 	$scope.showLog = function() {
-		output = $scope.getInfoTeam('blue');
-		console.log("logged in var 'output'");
+		addAnnonce("An ally has been slain");
+		addAnnonce("Test 2 1s", 1);
 	};
+
+	addAnnonce = function(text, time) {
+		time = typeof time !== 'undefined' ? time : 2;
+		$scope.annonces.push({"text":text, "time":time, "until":-1});
+		$scope.annonces.push({"text":"", "time":1, "until":-1});
+	}
 
 	$scope.getAnnonces = function() {
 		if ($scope.annonces.length == 0) return "";
 		else {
 			var annonce = $scope.annonces[0];
+			if (annonce.until==-1) {
+				$scope.annonces[0].until = Date.now()+annonce.time*1000;
+				return annonce.text;
+			} else if (Date.now() < annonce.until) {
+				$timeout(function() { }, annonce.until-Date.now());
+				return annonce.text;
+			} else {
+				$scope.annonces.shift();
+				return $scope.getAnnonces();
+			}
 		}
 	}
 
