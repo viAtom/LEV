@@ -34,15 +34,31 @@
 							</ul>
 						</li>
 						<li class="game-available game-selected ng-cloak" ng-if="game"><a>{{getNameMatch(game)}}</a></li>
-						<!--<li ng-click="showLog()" type="button" style="color: black"><a>Console Log</a></li>-->
+						<li class="clickable" ng-click="showLog()" type="button" style="color: black"><a>Debug</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<div class="main" ng-if="! loading">
-			<div class="players" class="ng-cloak">
+			<div class="header-info ng-cloak">
+				<div class="header-blue" ng-repeat="team in getInfoTeam('blue')">
+					<span class="team-name">{{team.name}}</span>
+					<span class="team-inhibs"><img src="assets/img/icon-inhibitor.png"/>{{team.inhibitorsKilled}}</span>
+					<span class="team-towers"><img src="assets/img/icon-tower.png"/>{{team.towersKilled}}</span>
+					<span class="team-gold"><img src="assets/img/icon-player-gold.png"/>{{team.tg/1000|number:1}}k</span>
+					<span class="team-kills">{{team.kills}}</span>
+				</div>
+				<img class="team-icon-kill" src="assets/img/icon-team-kills.png"/>
+				<div class="header-red" ng-repeat="team in getInfoTeam('red')">
+					<span class="team-kills">{{team.kills}}</span>
+					<span class="team-gold"><img src="assets/img/icon-player-gold.png"/>{{team.tg/1000|number:1}}k</span>
+					<span class="team-towers"><img src="assets/img/icon-tower.png"/>{{team.towersKilled}}</span>
+					<span class="team-inhibs"><img src="assets/img/icon-inhibitor.png"/>{{team.inhibitorsKilled}}</span>
+					<span class="team-name">{{team.name}}</span>
+				</div>
+			</div>
+			<div class="wrapper" class="ng-cloak">
 				<div class='team blue-team ng-cloak'>
-					<div class="header">{{ getInfoTeam('blue') | name }} - {{ getInfoTeam('blue') | kda }}</div>
 					<div class="players-container">
 						<div class="player-container" ng-attr-id="{{game}}{{player.participantId}}" ng-class="{'player-dead' : player.h==0}" ng-repeat="player in getTeam('blue')"">
 							<div ng-if="$index != 0" class="divider"></div>
@@ -67,8 +83,8 @@
 									</div>
 									<div class="champion-square noselect" ng-attr-style="background-image: url('{{ddragon}}/img/champion/{{player.championName}}.png')" data-toggle="tooltip" data-placement="bottom" ng-attr-title="{{player.championName}}" tooltip><div class="player-level noselect">{{player.level}}</div></div>
 									<div class="stat-bars">
-										<div class="stat-bar health-bar" data-toggle="tooltip" data-placement="left" ng-attr-title="{{player.h}} / {{player.maxHealth}}" tooltip><span ng-attr-style="width: {{player.h*100/player.maxHealth|number:2}}%"></span></div>
-										<div class="stat-bar power-bar" data-toggle="tooltip" data-placement="left" ng-attr-title="{{player.p}} / {{player.maxPower}}" tooltip><span ng-attr-style="width: {{player.p*100/player.maxPower|number:2}}%"></span></div>
+										<div class="stat-bar health-bar"><span ng-attr-style="width: {{player.h*100/player.maxHealth|number:2}}%"></span></div>
+										<div class="stat-bar power-bar"><span ng-attr-style="width: {{player.p*100/player.maxPower|number:2}}%"></span></div>
 									</div>
 								</div>
 								<div class="player-stuff noselect">
@@ -90,21 +106,20 @@
 									<image x="-3" y="-3" width="34" height="34" ng-attr-xlink:href="{{'http://ddragon.leagueoflegends.com/cdn/6.21.1/img/champion/'+player.championName+'.png'}}" xlink:href=""></image>
 								</pattern>
 							</defs>
-							<circle ng-attr-cx="{{Math.round(player.x/29)}}" ng-attr-cy="{{512-Math.round(player.y/29)}}" r="14" ng-attr-stroke="{{player.teamId=='100' ? 'rgba(58, 171, 195, 0.75)' : 'rgba(184, 71, 80, 0.75)'}}" stroke-width="1" ng-attr-fill="url(#icon-{{game}}-{{player.championName}})" class="champion-circle" ng-mouseout="unhover(game+''+player.participantId)" ng-mouseover="hover(game+''+player.participantId)" ng-attr-filter="{{player.h==0 && 'url(#grayscale)'}}"></circle>
+							<circle ng-attr-cx="{{Math.round(player.x/29)}}" ng-attr-cy="{{512-Math.round(player.y/29)}}" r="14" ng-attr-stroke="{{player.teamId=='100' ? 'rgba(58, 171, 195, 0.75)' : 'rgba(184, 71, 80, 0.75)'}}" stroke-width="2" ng-attr-fill="url(#icon-{{game}}-{{player.championName}})" class="champion-circle" ng-mouseout="unhover(game+''+player.participantId)" ng-mouseover="hover(game+''+player.participantId)" ng-attr-filter="{{player.h==0 && 'url(#grayscale)'}}"></circle>
 						</g>
 						<filter id="grayscale"><feColorMatrix type="matrix" values="0.1111 0.1111 0.1111 0 0 0.1111 0.1111 0.1111 0 0 0.1111 0.1111 0.1111 0 0 0 0 0 1 0"/></filter>
 					</svg>
 				</div>
 				<div class='team red-team ng-cloak'>
-					<div class="header">{{ getInfoTeam('red') | name }} - {{ getInfoTeam('red') | kda }}</div>
 					<div class="players-container">
 						<div class="player-container" ng-attr-id="{{game}}{{player.participantId}}" ng-class="{'player-dead' : player.h==0}" ng-repeat="player in getTeam('red')">
 							<div ng-if="$index != 0" class="divider"></div>
 							<div class="player">
 								<div>
 									<div class="stat-bars">
-										<div class="stat-bar health-bar" data-toggle="tooltip" data-placement="right" ng-attr-title="{{player.h}} / {{player.maxHealth}}" tooltip><span ng-attr-style="width: {{player.h*100/player.maxHealth|number:2}}%"></span></div>
-										<div class="stat-bar power-bar" data-toggle="tooltip" data-placement="right" ng-attr-title="{{player.p}} / {{player.maxPower}}" tooltip><span ng-attr-style="width: {{player.p*100/player.maxPower|number:2}}%"></span></div>
+										<div class="stat-bar health-bar"><span ng-attr-style="width: {{player.h*100/player.maxHealth|number:2}}%"></span></div>
+										<div class="stat-bar power-bar"><span ng-attr-style="width: {{player.p*100/player.maxPower|number:2}}%"></span></div>
 									</div>
 									<div class="champion-square noselect" ng-attr-style="background-image: url('{{ddragon}}/img/champion/{{player.championName}}.png')" data-toggle="tooltip" data-placement="bottom" ng-attr-title="{{player.championName}}" tooltip><div class="player-level noselect">{{player.level}}</div></div>
 									<div class="player-info">
