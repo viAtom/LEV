@@ -77,15 +77,14 @@ lev.controller('lev-controller', function($scope, $timeout) {
 				$.each(data[gameUpdated].playerStats, function(i, val) {
 					for (key in val) {
 						$scope.general[gameUpdated].playerStats[i][key] = val[key];
-						if (key=="h" && val[key]==0) $scope.general[gameUpdated].playerStats[i].baronActive = false;
 					}
 					var player = $scope.general[gameUpdated].playerStats[i];
+					if (val.h && val.h==0) player.baronActive = false;
 					if (val.pentaKills)	addAnnonce(player.summonerName+" ("+player.championName+") PENTAKILL !!!", 4);
 					else if (val.quadraKills) addAnnonce(player.summonerName+" ("+player.championName+") Quadra Kill !!", 3);
 					else if (val.tripleKills) addAnnonce(player.summonerName+" ("+player.championName+") Triple Kill !", 3);
 					else if (val.doubleKills) addAnnonce(player.summonerName+" ("+player.championName+") Double Kill", 2);
 					else if (val.kills) addAnnonce(player.summonerName+" ("+player.championName+") has slain an enemy", 2);
-											
 				});
 				$.each(data[gameUpdated].teamStats, function(teamId, val) {
 					for (key in val) {
@@ -97,6 +96,11 @@ lev.controller('lev-controller', function($scope, $timeout) {
 						$.each($scope.general[gameUpdated].playerStats, function(iP, player) {
 							if (player.teamId==teamId) player.baronActive=true;
 						});
+						$timeout(function() { 
+							$.each($scope.general[gameUpdated].playerStats, function(iP, player) {
+								if (player.teamId==teamId) player.baronActive=false;
+							});
+						}, 210*1000);
 					}
 					if (val.dragonsKilled) addAnnonce(team+" has killed a dragon", 2);
 					if (val.towersKilled) addAnnonce(team+" has destroyed a tower", 2);
@@ -115,7 +119,7 @@ lev.controller('lev-controller', function($scope, $timeout) {
 						winner = $scope.general[gameUpdated].playerStats[10].summonerName.split(" ")[0];
 						loser = $scope.general[gameUpdated].playerStats[1].summonerName.split(" ")[0];
 					}
-					addAnnonce(winner+ "wins against "+loser, 4, gameUpdated);
+					addAnnonce(winner+ " VICTORY against "+loser, 4, gameUpdated);
 				}
 			}
 		});
