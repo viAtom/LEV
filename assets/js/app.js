@@ -77,13 +77,46 @@ lev.controller('lev-controller', function($scope, $timeout) {
 				$.each(data[gameUpdated].playerStats, function(i, val) {
 					for (key in val) {
 						$scope.general[gameUpdated].playerStats[i][key] = val[key];
+						if (key=="h" && val[key]==0) $scope.general[gameUpdated].playerStats[i].baronActive = false;
 					}
+					var player = $scope.general[gameUpdated].playerStats[i];
+					if (val.pentaKills)	addAnnonce(player.summonerName+" ("+player.championName+") PENTAKILL !!!", 4);
+					else if (val.quadraKills) addAnnonce(player.summonerName+" ("+player.championName+") Quadra Kill !!", 3);
+					else if (val.tripleKills) addAnnonce(player.summonerName+" ("+player.championName+") Triple Kill !", 3);
+					else if (val.doubleKills) addAnnonce(player.summonerName+" ("+player.championName+") Double Kill", 2);
+					else if (val.kills) addAnnonce(player.summonerName+" ("+player.championName+") has slain an enemy", 2);
+											
 				});
-				$.each(data[gameUpdated].teamStats, function(i, val) {
-					for (key in val) $scope.general[gameUpdated].teamStats[i][key] = val[key];
+				$.each(data[gameUpdated].teamStats, function(teamId, val) {
+					for (key in val) {
+						$scope.general[gameUpdated].teamStats[teamId][key] = val[key];
+					}
+					var team = $scope.general[gameUpdated].playerStats[teamId/20].summonerName.split(" ")[0];
+					if (val.baronsKilled) {
+						addAnnonce(team+" has slain the Baron Nashor", 4);
+						$.each($scope.general[gameUpdated].playerStats, function(iP, player) {
+							if (player.teamId==teamId) player.baronActive=true;
+						});
+					}
+					if (val.dragonsKilled) addAnnonce(team+" has killed a dragon", 2);
+					if (val.towersKilled) addAnnonce(team+" has destroyed a tower", 2);
+					if (val.inhibitorsKilled) addAnnonce(team+" has destroyed an inhibitor", 3);
 				})
 				$scope.general[gameUpdated].t = data[gameUpdated].t;
-				$scope.general[gameUpdated].gameComplete = data[gameUpdated].gameComplete;
+				if (data[gameUpdated].gameComplete) {
+					$scope.general[gameUpdated].gameComplete = data[gameUpdated].gameComplete;
+					var blueTeamWin = $scope.general[gameUpdated].teamStats[100].matchVictory==1;
+					var winner = 0;
+					var loser = 0;
+					if (blueTeamWin) {
+						winner = $scope.general[gameUpdated].playerStats[1].summonerName.split(" ")[0];
+						loser = $scope.general[gameUpdated].playerStats[10].summonerName.split(" ")[0];
+					} else {
+						winner = $scope.general[gameUpdated].playerStats[10].summonerName.split(" ")[0];
+						loser = $scope.general[gameUpdated].playerStats[1].summonerName.split(" ")[0];
+					}
+					addAnnonce(winner+ "wins against "+loser, 4, gameUpdated);
+				}
 			}
 		});
 		try { $scope.$apply(); } catch (e) { console.log(e); }
@@ -140,8 +173,9 @@ lev.controller('lev-controller', function($scope, $timeout) {
 	}
 
 	$scope.showLog = function() {
-		addAnnonce("An ally has been slain");
-		addAnnonce("Test 2 1s", 1);
+		$.each($scope.general[$scope.game].playerStats, function(iP, player) {
+			player.baronActive=true;
+		});
 	};
 
 	addAnnonce = function(text, time) {
@@ -239,6 +273,23 @@ lev.controller('lev-controller', function($scope, $timeout) {
 		if (diff == 0) return ""
 		else if (diff > 0) return "background-color: rgb(35, 103, 118);"
 		else return "background-color: rgb(110, 43, 48);"
+	}
+
+	$scope.isEnergyChampion = function(key) {
+		// Akali, Kennen, LeeSin, Shen, Zed
+		var energyChampions = ["Akali", "Kennen", "LeeSin", "Shen", "Zed"];
+		return (energyChampions.indexOf(key)!=-1);
+	}
+
+	$scope.isRedbarChampion = function(key) {
+		// Gnar, Rek'sai, Renekton, Rengar, Rumble, Shyvana, Tryndamere, Yasuo
+		var redbarChampions = ["Gnar", "RekSai", "Renekton", "Rengar", "Rumble", "Shyvana", "Tryndamere", "Yasuo"]
+		return (redbarChampions.indexOf(key)!=-1);
+	}
+
+	$scope.isGameLive = function(match) {
+		var match = $scope.general[match];
+		return !match.gameComplete;
 	}
 
 	function pad(n) {

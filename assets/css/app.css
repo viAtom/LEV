@@ -86,13 +86,13 @@ body {
 }
 
 .player-item {
-	width: 30px;
-	height: 30px;
+	width: 40px;
+	height: 40px;
 	display: inline-block;
 	margin: 2px;
 	vertical-align: middle;
 	border: solid 1px #666;
-	background-size: 30px;
+	background-size: 40px;
 	background-repeat: no-repeat;
 	background-position: -1px -1px;
 }
@@ -149,7 +149,8 @@ body {
 .players-container {
 	max-height: calc(100vh - 140px);
 	min-height: 628px;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: visible;
 }
 
 .player-container, .header {
@@ -359,6 +360,10 @@ body {
 	box-shadow: inset 0px 0px 40px -4px rgba(255,0,0,0.5);
 }
 
+.baron-active {
+	box-shadow: inset 0px 0px 40px -4px rgba(220,0,220,0.5);
+}
+
 .stat-bars {
 	width: 74px;
 	display: inline-block;
@@ -379,11 +384,19 @@ body {
 }
 
 .health-bar > span {
-	background-color: #5FE059;
+	background-color: #3df92f;
 }
 
 .power-bar > span {
-	background-color: #3081F9;
+	background-color: #3081f9;
+}
+
+.energy-bar > span {
+	background-color: #e4f92f;
+}
+
+.red-bar > span {
+	background-color: #f92f2f;
 }
 
 svg {
